@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+						 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+						 x:Class="ApkSideLoader.MainPage"
+						 NavigationPage.HasNavigationBar="False"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+						 >
+  <ContentPage.Resources>
+    <System:Double x:Key="PhotoBoderWidth">400</System:Double>
+    <System:Double x:Key="GridMaxHeight">60</System:Double>
+    <Thickness x:Key="Margin1" Left="20" Top="10" Right="20" Bottom="10" />
+  </ContentPage.Resources>
+  <StackLayout>
+    <Frame BackgroundColor="#213453" Padding="24" CornerRadius="0">
+      <Label Text="APK Sideloader" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
+    </Frame>
+    <ScrollView>
+      <StackLayout>
+        <Grid Margin="{StaticResource Margin1}" HeightRequest="{StaticResource GridMaxHeight}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
+          </Grid.ColumnDefinitions>
+          <Entry Grid.Column="0" Text="IP Address"/>
+          <Entry Grid.Column="1" Text="Port"/>
+        </Grid>
+        <Grid Margin="{StaticResource Margin1}" HeightRequest="{StaticResource GridMaxHeight}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
+          </Grid.ColumnDefinitions>
+          <Label Text="Connection Status" VerticalOptions="Center"/>
+          <Button Grid.Column="1" Text="Connect"/>
+        </Grid>
+        <Grid Margin="{StaticResource Margin1}" HeightRequest="{StaticResource GridMaxHeight}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+          </Grid.ColumnDefinitions>
+          <Button Grid.Column="0" Text="Load"/>
+          <Entry Grid.Column="1" Text="File Name" IsReadOnly="True" HorizontalTextAlignment="End"/>
+        </Grid>
+        <Grid Margin="{StaticResource Margin1}" HeightRequest="{StaticResource GridMaxHeight}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
+          </Grid.ColumnDefinitions>
+          <Label Text="Connection Status" VerticalOptions="Center"/>
+          <Button Grid.Column="1" Text="Push"/>
+        </Grid>
+      </StackLayout>
+    </ScrollView>
+    <ScrollView>
+      <StackLayout>
+        <Label Text="Instruction" FontSize="Title" Padding="30,10,30,10"/>
+        <Label Text="1. Fill IP address and port, Click &quot;Connect&quot; to initialize connection, if connected, status will change to &quot;Connected&quot;;"
+               FontSize="16" Padding="30,0,30,0"/>
+        <Label Text="1. Click &quot;Load&quot; to find and load a APK file;"
+               FontSize="16" Padding="30,0,30,0"/>
+        <Label Text="3. Wait for status changed to &quot;Successful!&quot;;"
+               FontSize="16" Padding="30,0,30,0"/>
+        <Label FontSize="16" Padding="30,24,30,0">
+          <Label.FormattedText>
+            <FormattedString>
+              <FormattedString.Spans>
+                <Span Text="Learn more at "/>
+                <Span Text="https://github.com/hjt486/ApkSideLoader" FontAttributes="Bold"/>
+              </FormattedString.Spans>
+            </FormattedString>
+          </Label.FormattedText>
+        </Label>
+      </StackLayout>
+    </ScrollView>
+  </StackLayout>
+  <!--
+      <Label Text="Start developing now" FontSize="Title" Padding="30,10,30,10"/>
+    <Label Text="Make changes to your XAML file and save to see your UI update in the running app with XAML Hot Reload. Give it a try!" FontSize="16" Padding="30,0,30,0"/>
+    <Label FontSize="16" Padding="30,24,30,0">
+      <Label.FormattedText>
+        <FormattedString>
+          <FormattedString.Spans>
+            <Span Text="Learn more at "/>
+            <Span Text="https://aka.ms/xamarin-quickstart" FontAttributes="Bold"/>
+          </FormattedString.Spans>
+        </FormattedString>
+      </Label.FormattedText>
+    </Label>
+  -->
+
+</ContentPage>
