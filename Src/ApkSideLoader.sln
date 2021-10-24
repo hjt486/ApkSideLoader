@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApkSideLoader.Android", "Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApkSideLoader.iOS", "ApkSideLoader\ApkSideLoader.iOS\ApkSideLoader.iOS.csproj", "{A33191AC-EA17-4E45-A257-10079CDDDB39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApkSideLoader", "ApkSideLoader\ApkSideLoader\ApkSideLoader.csproj", "{A6AE2147-E9BE-43E3-B1B2-78DD0FFB3404}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApkSideLoader", "ApkSideLoader\ApkSideLoader\ApkSideLoader.csproj", "{A6AE2147-E9BE-43E3-B1B2-78DD0FFB3404}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApkSideLoader.WPF", "ApkSideLoader\ApkSideLoader.WPF\ApkSideLoader.WPF.csproj", "{A811C28B-49E9-4501-A04F-93AF389C621D}"
 EndProject

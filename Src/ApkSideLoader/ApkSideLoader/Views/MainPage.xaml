@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
 						 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-						 x:Class="ApkSideLoader.MainPage"
+						 x:Class="ApkSideLoader.Views.MainPage"
 						 NavigationPage.HasNavigationBar="False"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
-						 >
+             xmlns:viewmodels="clr-namespace:ApkSideLoader.ViewModels"
+             x:DataType="viewmodels:MainPageViewModel">
   <ContentPage.Resources>
     <System:Double x:Key="PhotoBoderWidth">400</System:Double>
     <System:Double x:Key="GridMaxHeight">60</System:Double>
@@ -21,43 +22,35 @@
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="1*"/>
           </Grid.ColumnDefinitions>
-          <Entry Grid.Column="0" Text="IP Address"/>
-          <Entry Grid.Column="1" Text="Port"/>
-        </Grid>
-        <Grid Margin="{StaticResource Margin1}" HeightRequest="{StaticResource GridMaxHeight}">
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="1*"/>
-          </Grid.ColumnDefinitions>
-          <Label Text="Connection Status" VerticalOptions="Center"/>
-          <Button Grid.Column="1" Text="Connect"/>
+          <Entry Grid.Column="0" Text="{Binding IpAddress, Mode=TwoWay}"/>
+          <Entry Grid.Column="1" Text="{Binding Port, Mode=TwoWay}"/>
         </Grid>
         <Grid Margin="{StaticResource Margin1}" HeightRequest="{StaticResource GridMaxHeight}">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="3*"/>
           </Grid.ColumnDefinitions>
-          <Button Grid.Column="0" Text="Load"/>
-          <Entry Grid.Column="1" Text="File Name" IsReadOnly="True" HorizontalTextAlignment="End"/>
+          <Button Grid.Column="0" Text="Load" Command="{Binding LoadCommand}"/>
+          <Entry Grid.Column="1" Text="{Binding FileName}" IsReadOnly="True" HorizontalTextAlignment="End"/>
         </Grid>
         <Grid Margin="{StaticResource Margin1}" HeightRequest="{StaticResource GridMaxHeight}">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="1*"/>
           </Grid.ColumnDefinitions>
-          <Label Text="Connection Status" VerticalOptions="Center"/>
-          <Button Grid.Column="1" Text="Push"/>
+          <Entry Text="{Binding ConnectionStatus, Mode= TwoWay}" HeightRequest="{StaticResource GridMaxHeight} " VerticalOptions="Center" />
+          <Button Grid.Column="1" Text="Push" Command="{Binding PushCommand}"/>
         </Grid>
       </StackLayout>
     </ScrollView>
     <ScrollView>
       <StackLayout>
         <Label Text="Instruction" FontSize="Title" Padding="30,10,30,10"/>
-        <Label Text="1. Fill IP address and port, Click &quot;Connect&quot; to initialize connection, if connected, status will change to &quot;Connected&quot;;"
+        <Label Text="1. Fill IP address and port;"
                FontSize="16" Padding="30,0,30,0"/>
         <Label Text="1. Click &quot;Load&quot; to find and load a APK file;"
                FontSize="16" Padding="30,0,30,0"/>
-        <Label Text="3. Wait for status changed to &quot;Successful!&quot;;"
+        <Label Text="3. Wait for status changed to &quot;Success!&quot;;"
                FontSize="16" Padding="30,0,30,0"/>
         <Label FontSize="16" Padding="30,24,30,0">
           <Label.FormattedText>
