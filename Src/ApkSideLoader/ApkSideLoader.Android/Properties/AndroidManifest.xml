@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.apksideloader" android:installLocation="auto">
-	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="29" />
-	<application android:label="ApkSideLoader.Android" android:theme="@style/MainTheme"></application>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.hjt486.apksideloader" android:installLocation="preferExternal">
+	<uses-sdk android:minSdkVersion="29" android:targetSdkVersion="29" />
+	<application android:label="ApkSideLoader.Android" android:theme="@style/MainTheme" android:extractNativeLibs="true"></application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 </manifest>

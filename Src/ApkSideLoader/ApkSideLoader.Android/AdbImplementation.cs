@@ -13,6 +13,7 @@ using ApkSideLoader.Services;
 using System.Threading.Tasks;
 using Java.Lang;
 using System.IO;
+using Android.Content.PM;
 
 [assembly: Xamarin.Forms.Dependency(typeof(ApkSideLoader.Droid.AdbImplementation))]
 namespace ApkSideLoader.Droid
@@ -21,45 +22,7 @@ namespace ApkSideLoader.Droid
   {
     public string CallAdb(string arg)
     {
-      GetAdbStatus();
-      //Debug.WriteLine(result);
-      int a = 0;
-      /*
-      string filename = "adb.exe";
-
-      var sb = new StringBuilder();
-      var proc = new System.Diagnostics.Process();
-      // Hookup the eventhandlers to capture the data that is received
-      proc.OutputDataReceived += (sender, args) => sb.AppendLine(args.Data);
-      proc.ErrorDataReceived += (sender, args) => sb.AppendLine(args.Data);
-      // Set the StartInfo
-      proc.StartInfo.RedirectStandardOutput = true;
-      proc.StartInfo.RedirectStandardError = true;
-      proc.StartInfo.UseShellExecute = false;
-      proc.StartInfo.RedirectStandardOutput = true;
-      proc.StartInfo.CreateNoWindow = true;
-      proc.StartInfo.FileName = filename;
-      proc.StartInfo.Arguments = arg;
-      // Start
-      proc.Start();
-      // start our event pumps
-      proc.BeginOutputReadLine();
-      proc.BeginErrorReadLine();
-
-      if (!arg.Contains("install "))
-      {
-        if (!proc.WaitForExit(5000))
-        {
-          proc.Kill();
-        }
-      }
-      else
-      {
-        proc.WaitForExit(60000);
-      }
-      return sb.ToString();
-      */
-      return "";
+      return GetAdbStatus(arg);
     }
 
     public string LoadFile()
@@ -67,23 +30,34 @@ namespace ApkSideLoader.Droid
       return "";
     }
 
-    async Task<string> GetAdbStatus()
+    private string GetAdbStatus(string param)
     {
       try
       {
-        var process = Java.Lang.Runtime.GetRuntime().Exec(new string[] { "adb version" });
-        var exitCode = await process.WaitForAsync();
+        //var applicationInfo = Platform.AppContext.ApplicationInfo;
+        //var packageManager = Platform.AppContext.PackageManager;
+
+        //Java.IO.File workdir = new Java.IO.File(Platform.AppContext.ApplicationInfo.NativeLibraryDir);
+        //var builder = new ProcessBuilder(Platform.AppContext.ApplicationInfo.NativeLibraryDir + "/lib_adb_arm64.so ", "version", "start-server", param).Directory(workdir);
+        //var process = builder.Start();
+        //var process = Runtime.GetRuntime().Exec("start - server", Platform.AppContext.ApplicationInfo.NativeLibraryDir + "/lib_adb_arm64.so " + param);
+        var process = Runtime.GetRuntime().Exec(Platform.AppContext.ApplicationInfo.NativeLibraryDir + "/lib_adb_arm64.so " + "connect 192.168.1.114:58526");
+        var exitCode = process.WaitFor();
+        process = Runtime.GetRuntime().Exec(Platform.AppContext.ApplicationInfo.NativeLibraryDir + "/lib_adb_arm64.so " + param);
+        exitCode = process.WaitFor();
 
         if (exitCode == 0)
         {
-          using (var outputStreamReader = new StreamReader(process.InputStream))
-            return await outputStreamReader.ReadToEndAsync();
+          var outputStreamReader = new StreamReader(process.InputStream);
+          var result = outputStreamReader.ReadToEnd();
+          return result.ToString();
         }
 
         if (process.ErrorStream != null)
         {
-          using (var errorStreamReader = new StreamReader(process.ErrorStream))
-            return await errorStreamReader.ReadToEndAsync();
+          var errorStreamReader = new StreamReader(process.ErrorStream);
+          var result = errorStreamReader.ReadToEnd();
+          return result.ToString();
         }
       }
       catch (System.Exception ee)
@@ -91,7 +65,7 @@ namespace ApkSideLoader.Droid
         int a = 0;
       }
 
-      return null;
+      return "";
     }
 
   }
