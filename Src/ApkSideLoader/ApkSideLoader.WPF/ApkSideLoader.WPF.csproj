@@ -126,6 +126,9 @@
       <Name>ApkSideLoader</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="adb\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -136,8 +139,8 @@
   </Target>
   <Import Project="..\..\packages\Xamarin.Forms.5.0.0.2196\build\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.5.0.0.2196\build\Xamarin.Forms.targets')" />
   <PropertyGroup>
-    <PreBuildEvent>copy "$(SolutionDir)ApkSideLoader\ApkSideLoader\adb\bin\adb_win\adb.exe" "$(ProjectDir)$(OutDir)."  /Y
-copy "$(SolutionDir)ApkSideLoader\ApkSideLoader\adb\bin\adb_win\AdbWinApi.dll" "$(ProjectDir)$(OutDir)."  /Y
-copy "$(SolutionDir)ApkSideLoader\ApkSideLoader\adb\bin\adb_win\AdbWinUsbApi.dll" "$(ProjectDir)$(OutDir)."  /Y</PreBuildEvent>
+    <PreBuildEvent>copy "$(ProjectDir)adb\adb.exe" "$(ProjectDir)$(OutDir)."  /Y
+copy "$(ProjectDir)adb\AdbWinApi.dll" "$(ProjectDir)$(OutDir)."  /Y
+copy "$(ProjectDir)adb\AdbWinUsbApi.dll" "$(ProjectDir)$(OutDir)."  /Y</PreBuildEvent>
   </PropertyGroup>
 </Project>

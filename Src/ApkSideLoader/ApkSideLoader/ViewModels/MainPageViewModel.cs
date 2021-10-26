@@ -13,7 +13,8 @@ namespace ApkSideLoader.ViewModels
   {
     string _ipAddress, _port, _filePath, _connectionStatus, _debugStatus;
 
-    public Command PushCommand { get; }
+    public Command SendFileCommand { get; }
+    public Command PushInstallCommand { get; }
     public Command LoadCommand { get; }
 
     // Debug Parameters Begin
@@ -26,13 +27,16 @@ namespace ApkSideLoader.ViewModels
     public MainPageViewModel()
     {
       //Init Properties
-      IpAddress = "127.0.0.1";
-      Port = "58526";
-      FilePath = "*.APK";
+      //IpAddress = "127.0.0.1";
+      //Port = "58526";
+      IpAddress = "169.254.100.102";
+      Port = "5555";
+      FilePath = "*.*";
       ConnectionStatus = "Standby;";
 
       // Init Commands
-      PushCommand = new Command(async () => await OnPush());
+      PushInstallCommand = new Command(async () => await OnPushInstall());
+      SendFileCommand = new Command(async () => await OnSend());
       LoadCommand = new Command(OnLoad);
     }
 
@@ -112,16 +116,27 @@ namespace ApkSideLoader.ViewModels
     /*
      * Command Methods Begin
      */
-    private async Task OnPush()
+    private async Task OnSend()
     {
-      await Task.Run(() => ExecutePush());
+      await Task.Run(() => ExecuteSend());
+    }
+    private async Task OnPushInstall()
+    {
+      await Task.Run(() => ExecutePushInstall());
     }
     private void OnLoad()
     {
       if (Device.RuntimePlatform == Device.WPF)
       {
         FilePath = DependencyService.Get<IAdbAccess>().LoadFile();
-        if (FilePath.Length > 0) ConnectionStatus = "APK file loaded;";
+        if (FilePath.Length > 4 && FilePath.Substring(FilePath.Length - 4) == ".apk")
+        {
+          ConnectionStatus = "APK File loaded;";
+        }
+        else
+        {
+          ConnectionStatus = "File loaded;";
+        }
       }
       else
       {
@@ -140,7 +155,29 @@ namespace ApkSideLoader.ViewModels
       PickAndShow();
     }
 
-    private void ExecutePush()
+    private void ExecuteSend()
+    {
+      if (FilePath.Length == 0)
+      {
+        ConnectionStatus = "Please load a file first;";
+        return;
+      }
+      bool isConnected = false;
+      string response = "";
+      ConnectionStatus = DependencyService.Get<IAdbAccess>().CallAdb("disconnect");
+      ConnectionStatus = DependencyService.Get<IAdbAccess>().CallAdb("kill-server");
+      ConnectionStatus = "Connecting...";
+      ConnectionStatus = DependencyService.Get<IAdbAccess>().CallAdb("connect " + IpAddress + ":" + Port);
+      if (ConnectionStatus.Contains("connected to")) isConnected = true;
+      if (isConnected)
+      {
+        ConnectionStatus = "Sending the file... (be patient...)";
+        response = DependencyService.Get<IAdbAccess>().CallAdb("push " + "\"" + FilePath + "\" " + "/sdcard/Download/");
+        ConnectionStatus = response;
+      }
+    }
+
+    private void ExecutePushInstall()
     {
       if (!(FilePath.Length > 4 && FilePath.Substring(FilePath.Length - 4) == ".apk"))
       {
@@ -149,29 +186,15 @@ namespace ApkSideLoader.ViewModels
       }
       bool isConnected = false;
       string response = "";
-      DebugStatus = DependencyService.Get<IAdbAccess>().CallAdb("disconnect");
-      DebugStatus = DependencyService.Get<IAdbAccess>().CallAdb("kill-server");
+      ConnectionStatus = DependencyService.Get<IAdbAccess>().CallAdb("disconnect");
+      ConnectionStatus = DependencyService.Get<IAdbAccess>().CallAdb("kill-server");
       ConnectionStatus = "Connecting...";
-      response = DependencyService.Get<IAdbAccess>().CallAdb("connect " + IpAddress + ":" + Port);
-      DebugStatus = response;
-      if (response.Contains("connected") && response.Contains(IpAddress))
-      {
-        ConnectionStatus = "Connected;";
-        isConnected = true;
-      }
-      else
-      {
-        ConnectionStatus = "ERROR: Failed to connect!";
-      }
+      ConnectionStatus = DependencyService.Get<IAdbAccess>().CallAdb("connect " + IpAddress + ":" + Port);
+      if (ConnectionStatus.Contains("connected to")) isConnected = true;
       if (isConnected)
       {
-        ConnectionStatus = "Pushing APK... (be patient if file is large)";
-        response = DependencyService.Get<IAdbAccess>().CallAdb("install " + "\"" + FilePath + "\"");
-        DebugStatus = response;
-        if (response.Contains("Success"))
-        {
-          ConnectionStatus = "Success!";
-        }
+        ConnectionStatus = "Pushing and installing APK... (be patient...)";
+        ConnectionStatus = DependencyService.Get<IAdbAccess>().CallAdb("install " + "\"" + FilePath + "\"");
       }
     }
 
@@ -195,7 +218,14 @@ namespace ApkSideLoader.ViewModels
         if (result != null && result.FullPath.Length > 0)
         {
           FilePath = result.FullPath;
-          ConnectionStatus = "APK file loaded;";
+          if (FilePath.Length > 4 && FilePath.Substring(FilePath.Length - 4) == ".apk")
+          {
+            ConnectionStatus = "APK File loaded;";
+          }
+          else
+          {
+            ConnectionStatus = "File loaded;";
+          }
         }
         return result;
       }

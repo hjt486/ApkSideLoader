@@ -53,8 +53,6 @@ namespace ApkSideLoader.WPF
       OpenFileDialog openFileDialog = new OpenFileDialog();
       openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
       openFileDialog.Filter =
-        "APK File (*.apk)|" +
-        "*.apk|" +
         "All  (*.*)|" +
         "*.*";
       if (openFileDialog.ShowDialog() == true)

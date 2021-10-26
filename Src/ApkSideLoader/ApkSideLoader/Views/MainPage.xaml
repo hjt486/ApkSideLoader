@@ -35,18 +35,17 @@
         </Grid>
         <Grid Margin="{StaticResource Margin1}" HeightRequest="{StaticResource GridMaxHeight}">
           <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
           </Grid.ColumnDefinitions>
-          <Entry Text="{Binding ConnectionStatus}" HeightRequest="{StaticResource GridMaxHeight}" IsReadOnly="True" VerticalOptions="Center" />
-          <Button Grid.Column="1" Text="Push" Command="{Binding PushCommand}"/>
+          <Button Grid.Column="0" Text="Send to Downloads Folder" Command="{Binding SendFileCommand}"/>
+          <Button Grid.Column="1" Text="Push and Install" Command="{Binding PushInstallCommand}"/>
         </Grid>
         <Grid Margin="{StaticResource Margin1}" HeightRequest="{StaticResource GridMaxHeight}">
           <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="1*"/>
           </Grid.ColumnDefinitions>
-          <Entry Text="{Binding DebugStatus}" HeightRequest="{StaticResource GridMaxHeight}" IsReadOnly="True" VerticalOptions="Center" />
+          <Editor Text="{Binding ConnectionStatus}" HeightRequest="{StaticResource GridMaxHeight}" IsReadOnly="True" VerticalOptions="Center" />
         </Grid>
       </StackLayout>
     </ScrollView>
@@ -55,16 +54,18 @@
         <Label Text="Instruction" FontSize="Title" Padding="30,10,30,10"/>
         <Label Text="1. Fill IP address and port;"
                FontSize="16" Padding="30,0,30,0"/>
-        <Label Text="1. Click &quot;Load&quot; to find and load a APK file;"
+        <Label Text="2. Click &quot;Load&quot; to find and load a APK file;"
                FontSize="16" Padding="30,0,30,0"/>
-        <Label Text="3. Wait for status changed to &quot;Success!&quot;;"
+        <Label Text="2. Click &quot;Push&quot; to push the APK to the device;"
+               FontSize="16" Padding="30,0,30,0"/>
+        <Label Text="4. Wait for status changed to &quot;Success!&quot;;"
                FontSize="16" Padding="30,0,30,0"/>
         <Label FontSize="16" Padding="30,24,30,0">
           <Label.FormattedText>
             <FormattedString>
               <FormattedString.Spans>
-                <Span Text="Learn more at "/>
-                <Span Text="https://github.com/hjt486/ApkSideLoader" FontAttributes="Bold"/>
+                <Span Text="@"/>
+                <Span Text="Jiatai Han" FontAttributes="Bold" FontSize="12" />
               </FormattedString.Spans>
             </FormattedString>
           </Label.FormattedText>
