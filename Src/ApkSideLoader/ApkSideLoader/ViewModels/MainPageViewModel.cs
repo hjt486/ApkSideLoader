@@ -27,10 +27,10 @@ namespace ApkSideLoader.ViewModels
     public MainPageViewModel()
     {
       //Init Properties
-      //IpAddress = "127.0.0.1";
-      //Port = "58526";
-      IpAddress = "169.254.100.102";
-      Port = "5555";
+      IpAddress = "192.168.1.114";
+      Port = "58526";
+      //IpAddress = "169.254.100.102";
+      //Port = "5555";
       FilePath = "*.*";
       ConnectionStatus = "Standby;";
 
@@ -131,11 +131,11 @@ namespace ApkSideLoader.ViewModels
         FilePath = DependencyService.Get<IAdbAccess>().LoadFile();
         if (FilePath.Length > 4 && FilePath.Substring(FilePath.Length - 4) == ".apk")
         {
-          ConnectionStatus = "APK File loaded;";
+          ConnectionStatus += "APK File loaded;";
         }
         else
         {
-          ConnectionStatus = "File loaded;";
+          ConnectionStatus += "File loaded;";
         }
       }
       else
@@ -159,21 +159,21 @@ namespace ApkSideLoader.ViewModels
     {
       if (FilePath.Length == 0)
       {
-        ConnectionStatus = "Please load a file first;";
+        ConnectionStatus += "Please load a file first;";
         return;
       }
       bool isConnected = false;
       string response = "";
-      ConnectionStatus = DependencyService.Get<IAdbAccess>().CallAdb("disconnect");
-      ConnectionStatus = DependencyService.Get<IAdbAccess>().CallAdb("kill-server");
-      ConnectionStatus = "Connecting...";
-      ConnectionStatus = DependencyService.Get<IAdbAccess>().CallAdb("connect " + IpAddress + ":" + Port);
+      ConnectionStatus += DependencyService.Get<IAdbAccess>().CallAdb("disconnect");
+      ConnectionStatus += DependencyService.Get<IAdbAccess>().CallAdb("kill-server");
+      ConnectionStatus += "Connecting...";
+      ConnectionStatus += DependencyService.Get<IAdbAccess>().CallAdb("connect " + IpAddress + ":" + Port);
       if (ConnectionStatus.Contains("connected to")) isConnected = true;
       if (isConnected)
       {
-        ConnectionStatus = "Sending the file... (be patient...)";
+        ConnectionStatus += "Sending the file... (be patient...)";
         response = DependencyService.Get<IAdbAccess>().CallAdb("push " + "\"" + FilePath + "\" " + "/sdcard/Download/");
-        ConnectionStatus = response;
+        ConnectionStatus += response;
       }
     }
 
@@ -181,20 +181,20 @@ namespace ApkSideLoader.ViewModels
     {
       if (!(FilePath.Length > 4 && FilePath.Substring(FilePath.Length - 4) == ".apk"))
       {
-        ConnectionStatus = "APK file is not loaded, please load first;";
+        ConnectionStatus += "APK file is not loaded, please load first;";
         return;
       }
       bool isConnected = false;
       string response = "";
-      ConnectionStatus = DependencyService.Get<IAdbAccess>().CallAdb("disconnect");
-      ConnectionStatus = DependencyService.Get<IAdbAccess>().CallAdb("kill-server");
-      ConnectionStatus = "Connecting...";
-      ConnectionStatus = DependencyService.Get<IAdbAccess>().CallAdb("connect " + IpAddress + ":" + Port);
+      ConnectionStatus += DependencyService.Get<IAdbAccess>().CallAdb("disconnect");
+      ConnectionStatus += DependencyService.Get<IAdbAccess>().CallAdb("kill-server");
+      ConnectionStatus += "Connecting...";
+      ConnectionStatus += DependencyService.Get<IAdbAccess>().CallAdb("connect " + IpAddress + ":" + Port);
       if (ConnectionStatus.Contains("connected to")) isConnected = true;
       if (isConnected)
       {
-        ConnectionStatus = "Pushing and installing APK... (be patient...)";
-        ConnectionStatus = DependencyService.Get<IAdbAccess>().CallAdb("install " + "\"" + FilePath + "\"");
+        ConnectionStatus += "Pushing and installing APK... (be patient...)";
+        ConnectionStatus += DependencyService.Get<IAdbAccess>().CallAdb("install " + "\"" + FilePath + "\"");
       }
     }
 
@@ -220,11 +220,11 @@ namespace ApkSideLoader.ViewModels
           FilePath = result.FullPath;
           if (FilePath.Length > 4 && FilePath.Substring(FilePath.Length - 4) == ".apk")
           {
-            ConnectionStatus = "APK File loaded;";
+            ConnectionStatus += "APK File loaded;";
           }
           else
           {
-            ConnectionStatus = "File loaded;";
+            ConnectionStatus += "File loaded;";
           }
         }
         return result;

@@ -41,11 +41,11 @@
           <Button Grid.Column="0" Text="Send to Downloads Folder" Command="{Binding SendFileCommand}"/>
           <Button Grid.Column="1" Text="Push and Install" Command="{Binding PushInstallCommand}"/>
         </Grid>
-        <Grid Margin="{StaticResource Margin1}" HeightRequest="{StaticResource GridMaxHeight}">
+        <Grid Margin="{StaticResource Margin1}" HeightRequest="300">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
           </Grid.ColumnDefinitions>
-          <Editor Text="{Binding ConnectionStatus}" HeightRequest="{StaticResource GridMaxHeight}" IsReadOnly="True" VerticalOptions="Center" />
+          <Editor Text="{Binding ConnectionStatus}" HeightRequest="300" VerticalOptions="Center"/>
         </Grid>
       </StackLayout>
     </ScrollView>
